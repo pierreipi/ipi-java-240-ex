@@ -4,9 +4,13 @@ import java.io.IOException;
 
 public class BitcoinService {
 
+    private static BitcoinService instance;
+
     private Double rate = null;
 
     private Boolean forceRefresh = false;
+
+    private WebPageManager webPageManager = new WebPageManager();
 
     /**
      * Méthode qui renvoie le cours du Bitcoin
@@ -20,7 +24,7 @@ public class BitcoinService {
         }
 
         System.out.println("Récupération du cours du bitcoin sur site distant");
-        WebPageManager webPageManager = new WebPageManager();
+        //WebPageManager webPageManager = new WebPageManager();
 
         String apiResponse = webPageManager.getPageContents("https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=EUR");
         apiResponse = apiResponse.replace("{\"EUR\":","");
@@ -40,6 +44,13 @@ public class BitcoinService {
             getBitcoinRate();
         }
         return prixEnEuro / rate;
+    }
+
+    public static BitcoinService getInstance() {
+        if (instance == null) {
+            instance = new BitcoinService();
+        }
+        return instance;
     }
 
 }

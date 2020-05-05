@@ -9,6 +9,8 @@ import java.util.StringJoiner;
 
 public class WebPageManager {
 
+    private static WebPageManager instance;
+
     private HashMap<String, String> cacheContent = new HashMap<>();
 
     /**
@@ -51,6 +53,13 @@ public class WebPageManager {
         } else {
             return getPageContents(address);
         }
+    }
+
+    public static WebPageManager getInstance() {
+        if (instance == null) {
+            instance = new WebPageManager();
+        }
+        return instance;
     }
 
 }
